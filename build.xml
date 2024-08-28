@@ -1,0 +1,86 @@
+<!--
+-->
+<project name="Grit" default="all">
+        
+	<property name="dist" value="${basedir}/dist" />
+	<property name="build" value="${basedir}/build" />
+	<property name="etc" value="${basedir}/etc" />
+	<property name="java-lib" value="${basedir}/java-lib" />
+	<property name="lib" value="${basedir}/lib" />
+	<property name="python-lib" value="${basedir}/python-lib" />
+	<property name="java-src" value="${basedir}/java-src" />
+	<property name="grit-src" value="${basedir}/src"/>
+	<property name="testresources" value="${basedir}/testresources"/>
+	<property name="python-src" value="${basedir}/python-src"/>
+	<property name="jython-jar" value="${basedir}/myJython2.7.0/jython-full.jar"/>
+
+	<target name="init" description="Initialisation">
+		<mkdir dir="${dist}"/>
+		<mkdir dir="${dist}/etc"/>
+		<mkdir dir="${dist}/testresources"/>
+		<mkdir dir="${build}"/>
+	</target>
+
+	<target name="clean" description="cleanup all of the temporary files and directories">
+		  <delete dir="${dist}"/>
+		  <delete dir="${build}"/>
+	</target>
+
+	<target name="build" description="build the GRIT package">
+		<unzip src="${jython-jar}" dest="${build}"/>
+		<javac srcdir="${java-src}" destdir="${build}" target="1.6" source="1.6" />
+	</target>
+	
+	<target name="assemble" description="assemble the grit JAR">
+		  <!-- Setup the Python Libs -->
+		  <copy todir="${build}/Lib">
+			<fileset dir="${python-lib}">
+			  <include name="**/*.py"/>
+			</fileset>
+		  </copy>
+		  <!-- Setup the Python sources -->
+		  <copy todir="${build}/Lib/grit">
+			<fileset dir="${grit-src}">
+			  <include name="**/*.py"/>
+			</fileset>
+		  </copy>
+		  <copy todir="${build}/Lib">
+			<fileset dir="${python-src}">
+			  <include name="**/*.py"/>
+			</fileset>
+		  </copy>
+		  <!-- package the new JAR -->	  
+		  <jar destfile="${dist}/${ant.project.name}.jar" basedir="${build}">
+			<zipgroupfileset dir="${java-lib}" includes="*.jar"  excludes="${jython-jar}"/>
+			<manifest>
+			  <attribute name="Main-Class" value="Main"/>
+			</manifest>
+		  </jar>
+		  <!-- Copy Config in dist -->
+		  <copy todir="${dist}/etc">
+		  	<fileset dir="${etc}">
+			  <include name="**/*.xml"/>
+			  <include name="**/*.cfg"/>
+		  	<include name="**/*.sh"/>
+			</fileset>
+		  </copy>
+		  <!-- Copy test resources into dist -->
+		  <copy todir="${dist}/testresources">
+		  	<fileset dir="${testresources}">
+			  <include name="*"/>
+			</fileset>
+		  </copy>
+		  <!-- Copy lib into dist -->
+		 <copy todir="${dist}/lib">
+				  	<fileset dir="${lib}">
+					  <include name="*"/>
+					</fileset>
+				  </copy>
+	</target>
+	<target name="dist" description="build distributable file">
+		<zip basedir="${dist}" destfile="Grit.zip"/>
+	</target>
+	
+	
+	<target name="all" depends="init, clean, build, assemble, dist" description="Runs the two targets"/>
+</project>

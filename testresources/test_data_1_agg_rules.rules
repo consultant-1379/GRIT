@@ -1,0 +1,73 @@
+alias.whenGroupkeys <- in.event_id = out.event_id, in.mcc = out.mcc, in.mnc = out.mnc, in.cause_code = out.cause_code, in.subcause_code = out.subcause_code, in.date_id = out.date_id, in.hour_id = out.hour_id
+alias.whenZeroToFifteen <- in.min_id >=0, in.min_id <=15, out.min_id = 0
+alias.whenFifteenToThirty <- in.min_id >15, in.min_id <=30, out.min_id = 15
+alias.whenThirtyToFourtyFive <- in.min_id >30, in.min_id <=45, out.min_id = 30
+alias.whenFourtyFiveToSixty <- in.min_id >45, in.min_id <=60, out.min_id = 45
+
+in.date_id <=> out.date_id when(alias.whenGroupkeys, alias.whenZeroToFifteen)
+
+in.date_id <=> out.date_id when(alias.whenGroupkeys, alias.whenZeroToFifteen)
+in.date_id <=> out.date_id when(alias.whenGroupkeys, alias.whenFifteenToThirty)
+in.date_id <=> out.date_id when(alias.whenGroupkeys, alias.whenThirtyToFourtyFive)
+in.date_id <=> out.date_id when(alias.whenGroupkeys, alias.whenFourtyFiveToSixty)
+
+in.event_id <=> out.event_id when(alias.whenGroupkeys, alias.whenZeroToFifteen)
+in.event_id <=> out.event_id when(alias.whenGroupkeys, alias.whenFifteenToThirty)
+in.event_id <=> out.event_id when(alias.whenGroupkeys, alias.whenThirtyToFourtyFive)
+in.event_id <=> out.event_id when(alias.whenGroupkeys, alias.whenFourtyFiveToSixty)
+
+in.hour_id <=> out.hour_id when(alias.whenGroupkeys, alias.whenZeroToFifteen)
+in.hour_id <=> out.hour_id when(alias.whenGroupkeys, alias.whenFifteenToThirty)
+in.hour_id <=> out.hour_id when(alias.whenGroupkeys, alias.whenThirtyToFourtyFive)
+in.hour_id <=> out.hour_id when(alias.whenGroupkeys, alias.whenFourtyFiveToSixty)
+
+in.min_id <=> out.min_id when(alias.whenGroupkeys, alias.whenZeroToFifteen)
+in.min_id <=> out.min_id when(alias.whenGroupkeys, alias.whenFifteenToThirty)
+in.min_id <=> out.min_id when(alias.whenGroupkeys, alias.whenThirtyToFourtyFive)
+in.min_id <=> out.min_id when(alias.whenGroupkeys, alias.whenFourtyFiveToSixty)
+
+in.mcc <=> out.mcc when(alias.whenGroupkeys, alias.whenZeroToFifteen)
+in.mcc <=> out.mcc when(alias.whenGroupkeys, alias.whenFifteenToThirty)
+in.mcc <=> out.mcc when(alias.whenGroupkeys, alias.whenThirtyToFourtyFive)
+in.mcc <=> out.mcc when(alias.whenGroupkeys, alias.whenFourtyFiveToSixty)
+
+in.mnc <=> out.mnc when(alias.whenGroupkeys, alias.whenZeroToFifteen)
+in.mnc <=> out.mnc when(alias.whenGroupkeys, alias.whenFifteenToThirty)
+in.mnc <=> out.mnc when(alias.whenGroupkeys, alias.whenThirtyToFourtyFive)
+in.mnc <=> out.mnc when(alias.whenGroupkeys, alias.whenFourtyFiveToSixty)
+
+in.cause_code <=> out.cause_code when(alias.whenGroupkeys, alias.whenZeroToFifteen)
+in.cause_code <=> out.cause_code when(alias.whenGroupkeys, alias.whenFifteenToThirty)
+in.cause_code <=> out.cause_code when(alias.whenGroupkeys, alias.whenThirtyToFourtyFive)
+in.cause_code <=> out.cause_code when(alias.whenGroupkeys, alias.whenFourtyFiveToSixty)
+
+in.subcause_code <=> out.subcause_code when(alias.whenGroupkeys, alias.whenZeroToFifteen)
+in.subcause_code <=> out.subcause_code when(alias.whenGroupkeys, alias.whenFifteenToThirty)
+in.subcause_code <=> out.subcause_code when(alias.whenGroupkeys, alias.whenThirtyToFourtyFive)
+in.subcause_code <=> out.subcause_code when(alias.whenGroupkeys, alias.whenFourtyFiveToSixty)
+
+count(in.event_id) <=> out.no_of_errors when(alias.whenGroupkeys, alias.whenZeroToFifteen)
+count(in.event_id) <=> out.no_of_errors when(alias.whenGroupkeys, alias.whenFifteenToThirty)
+count(in.event_id) <=> out.no_of_errors when(alias.whenGroupkeys, alias.whenThirtyToFourtyFive)
+count(in.event_id) <=> out.no_of_errors when(alias.whenGroupkeys, alias.whenFourtyFiveToSixty)
+
+max(in.bearer_cause_1) <=> out.max_bearer_1 when(alias.whenGroupkeys, alias.whenZeroToFifteen)
+max(in.bearer_cause_1) <=> out.max_bearer_1 when(alias.whenGroupkeys, alias.whenFifteenToThirty)
+max(in.bearer_cause_1) <=> out.max_bearer_1 when(alias.whenGroupkeys, alias.whenThirtyToFourtyFive)
+max(in.bearer_cause_1) <=> out.max_bearer_1 when(alias.whenGroupkeys, alias.whenFourtyFiveToSixty)
+
+sum(in.bearer_cause_1) <=> out.total_bearer_1 when(alias.whenGroupkeys, alias.whenZeroToFifteen)
+sum(in.bearer_cause_1) <=> out.total_bearer_1 when(alias.whenGroupkeys, alias.whenFifteenToThirty)
+sum(in.bearer_cause_1) <=> out.total_bearer_1 when(alias.whenGroupkeys, alias.whenThirtyToFourtyFive)
+sum(in.bearer_cause_1) <=> out.total_bearer_1 when(alias.whenGroupkeys, alias.whenFourtyFiveToSixty)
+
+avg(in.bearer_cause_1) <=> out.avg_bearer_1 when(alias.whenGroupkeys, alias.whenZeroToFifteen)
+avg(in.bearer_cause_1) <=> out.avg_bearer_1 when(alias.whenGroupkeys, alias.whenFifteenToThirty)
+avg(in.bearer_cause_1) <=> out.avg_bearer_1 when(alias.whenGroupkeys, alias.whenThirtyToFourtyFive)
+avg(in.bearer_cause_1) <=> out.avg_bearer_1 when(alias.whenGroupkeys, alias.whenFourtyFiveToSixty)
+
+min(in.bearer_cause_1) <=> out.min_bearer_1 when(alias.whenGroupkeys, alias.whenZeroToFifteen)
+min(in.bearer_cause_1) <=> out.min_bearer_1 when(alias.whenGroupkeys, alias.whenFifteenToThirty)
+min(in.bearer_cause_1) <=> out.min_bearer_1 when(alias.whenGroupkeys, alias.whenThirtyToFourtyFive)
+min(in.bearer_cause_1) <=> out.min_bearer_1 when(alias.whenGroupkeys, alias.whenFourtyFiveToSixty)
+

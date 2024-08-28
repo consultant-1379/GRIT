@@ -1,0 +1,11 @@
+###Python###
+*.class
+*.pyc
+*.log
+*.zip
+*~
+tools/*
+build/*
+dist/*
+myJython2.7.0/cachedir/*
+

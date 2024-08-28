@@ -1,0 +1,30 @@
+default(count(in.rat) = 0, -1) <=> default(count(out.rat) = 0, -2) when(in.rat = out.rat)
+default(count(in.rat) = 0, -1) <=> default(count(out.rat) = 0, -2)
+
+in.rat <=> out.rat
+#in.rat <?> out.rat
+
+#in.rat<=> out.rat
+#in.col4<=>out.col4
+#default(in.col4 = null, 0) <=> out.col4
+#default(in.col4 = null, 0) <=> out.col4 when(in.rat = 2, out.rat = 1)
+#default(in.col4 = null, 0) <=> out.col4 when(in.rat = out.rat)
+#alias.default <- default(in.col4 = null, 0)
+#alias.check <- out.col4 when(in.rat = out.rat)
+#alias.default <=> alias.check
+
+
+#default(in.col4 = null, 0) <=> out.col4 when(in.rat = 1, out.rat = 1)
+#default(in.col4 = null, 0) <=> out.col4 when(in.rat = out.rat)
+#alias.mcc <- substring(out.event_id, 3, 1)
+#in.id <=> substring(out.event_id, 3, 1)
+#in.rat<=>out.event_id
+#alias.mcc <=> in.event_id
+
+#in.id <=> alias.mcc
+#in.id <=> out.event_id
+
+#in.id <=> substring(out.event_id | "test", 1, 1)
+
+#count(in.id) <=> out.event_id
+

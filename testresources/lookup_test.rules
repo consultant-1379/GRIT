@@ -1,0 +1,64 @@
+# simple cases
+lookup(dim_e_lk_rnc_test, rnc_name, in.rnc_id) <=> out.rnc_name
+lookup(dim_e_lk_rnc_test, rnc_name, in.rnc_id = lookup.rnc_id) <=> out.rnc_name
+#reverse order
+out.rnc_name <=> lookup(dim_e_lk_rnc_test, rnc_name, in.rnc_id = lookup.rnc_id)
+
+# use a default
+out.rnc_name <=> default(lookup(dim_e_lk_rnc_test, rnc_name, in.rnc_id = lookup.rnc_id) = null, "fail") # default encasing a lookup
+
+# rule should not run because of unknown input field
+lookup(dim_e_lk_rnc_test, rnc_name, in.rnc_id_unknown = lookup.rnc_id) <=> out.rnc_name # unknown input fld
+# rule should not run because of unknown lookup field
+# This fails with an exception!
+#lookup(dim_e_lk_rnc_test, rnc_name, in.rnc_id = lookup.rnc_id_unknown) <=> out.rnc_name # unknown lookup fld
+
+alias.cellId <- (in.gcellid - ((in.gcellid/256) * 256))
+alias.nodeId <- in.gcellid / 256
+
+alias.nodeId <=> out.nodeId
+alias.cellId <=> out.cellId
+
+# test lookup using an alias
+alias.rnc_id <- in.rnc_id
+out.rnc_name <=> lookup(dim_e_lk_rnc_test, rnc_name, alias.rnc_id = lookup.rnc_id) # using an alias
+
+# test lookup using a complex alias
+alias.mcc <- substring(in.gummei, 4, 1) | substring(in.gummei, 3, 1) | substring(in.gummei, 2, 1) 
+alias.mcc<=>out.mcc
+
+# currently fails because look up matches more then one record
+lookup(dim_e_mccmnc_test, mcc, alias.mcc = lookup.mcc)  <=> out.mcc # expected to Pass
+
+alias.mnc2 <- substring(in.gummei, 6, 1) | substring(in.gummei, 7, 1) 
+alias.mnc3 <- substring(in.gummei, 6, 1) | substring(in.gummei, 7, 1) | substring(in.gummei, 8, 1) 
+# should fail 
+# alias.mnc2<=>out.mnc
+# should pass
+alias.mnc3<=>out.mnc
+lookup(dim_e_mccmnc_test, mnc, alias.mnc3 = lookup.mnc, alias.mcc=lookup.mcc) <=> out.mnc
+
+alias.tst<-"410"
+default(lookup(dim_e_mccmnc_test, mnc, alias.mnc3 = lookup.mnc) = null, "410") <=> out.mnc
+default(lookup(dim_e_mccmnc_test, mnc, alias.mnc3 = lookup.mnc) = null, alias.tst) <=> out.mnc
+
+# numeric 410 causes invalid SQL
+#default(lookup(dim_e_mccmnc_test, mnc, alias.mnc2 = lookup.mnc, alias.mcc=lookup.mcc) = null, 410) <=> out.mnc
+# fails - 410.0 != 410
+#default(lookup(dim_e_mccmnc_test, mnc, alias.mnc2 = lookup.mnc, alias.mcc=lookup.mcc) = null, 410.0) <=> out.mncint
+
+# works
+default(lookup(dim_e_mccmnc_test, mnc, alias.mnc2 = lookup.mnc, alias.mcc=lookup.mcc) = null, "410") <=> out.mnc
+default(lookup(dim_e_mccmnc_test, mnc, alias.mnc2 = lookup.mnc, alias.mcc=lookup.mcc) = null, (substring(in.gummei, 6, 1) | substring(in.gummei, 7, 1) | substring(in.gummei, 8, 1))) <=> out.mnc
+default(lookup(dim_e_mccmnc_test, mnc, alias.mnc2 = lookup.mnc, alias.mcc=lookup.mcc) = null, alias.mnc3) <=> out.mnc
+
+default(lookup(dim_e_mccmnc_test, mnc, alias.mnc2 = lookup.mnc, alias.mcc=lookup.mcc) = null, substring(in.gummei, 6, 1) | substring(in.gummei, 7, 1) | substring(in.gummei, 8, 1)) <=> out.mnc
+# produces bad sql lookup_1 defined twice
+default(lookup(dim_e_mccmnc_test, mnc, alias.mnc2 = lookup.mnc, alias.mcc=lookup.mcc) = null, alias.mnc3) <=> out.mnc
+
+default(lookup(dim_e_mccmnc_test, mnc, alias.mnc2 = lookup.mnc, alias.mcc=lookup.mcc) = null, lookup(dim_e_mccmnc_test, mnc, alias.mnc3 = lookup.mnc, alias.mcc=lookup.mcc)) <=> out.mnc
+
+default(lookup(dim_e_mccmnc_test, mnc, alias.mnc2 = lookup.mnc, alias.mcc=lookup.mcc) = null, lookup(dim_e_mccmnc_test, mnc, alias.mnc3 = lookup.mnc, alias.mcc=lookup.mcc)) <=> out.mnc
+
+default(lookup(dim_e_mccmnc_test, mnc, alias.mnc2 = lookup.mnc, alias.mcc=lookup.mcc) = null, lookup(dim_e_mccmnc_test2, mnc, alias.mnc3 = lookup.mnc, alias.mcc=lookup.mcc)) <=> out.mnc
+

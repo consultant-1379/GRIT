@@ -1,0 +1,13 @@
+in.rat<=> out.rat # should fail
+in.rat<=> out.rat when(out.rat != 1) # should pass
+#in.rat<?> out.rat # comment
+in.col4<=>out.col4 
+default(in.col4 = null, 0) <=> out.col4
+in.id <=> substring(out.event_id, 3, 1)
+in.rat<=>out.event_id
+# This rule should pass because it excludes the extra output records where the value is one.
+in.rat<=> out.rat when(out.rat != 1)
+default(count(in.rat)=0, -1) <=> default(count(out.rat) = 0, -2)
+default(count(in.rat)=0, -1) <=> default(count(out.rat) = 0, -2)  when(out.rat != 1)
+default(count(in.rat)=0, -1) <=> default(count(out.rat) = 0, -2)  when(in.rat != 2, out.rat != 2)
+

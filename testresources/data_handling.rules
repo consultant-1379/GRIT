@@ -1,0 +1,3 @@
+in.value <=> out.value #rule where unknown input and output field
+count(in.value) <=> out.val when(in.tst = 0, pad("0",2,out.tst) = "00") #rule where unknown input field
+sum(in.val) <=> out.value when(out.tst = 0) #rule where unknown output field

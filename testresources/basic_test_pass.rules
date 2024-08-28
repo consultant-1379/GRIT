@@ -1,0 +1,16 @@
+# basic test rules
+# all rules pass
+in.val <=> out.val when(in.tst = 0, out.tst = 0) # tst 0 - both sides the same
+#in.val <=> out.val when(in.tst = 1, out.tst = 1) # tst 1 - left has value not in right
+#in.val <=> out.val when(in.tst = 2, out.tst = 2) # tst 2 - right has value not in left
+#in.val <=> out.val when(in.tst = 3, out.tst = 3) # tst 3 - left has duplicated value
+#in.val <=> out.val when(in.tst = 4, out.tst = 4) # tst 4 - right has duplicated value
+#in.val <=> out.val when(in.tst = 5, out.tst = 5) # tst 5 - each side has some same and some different
+in.val <=> out.val when(in.tst = 6, out.tst = 6) # tst 6 - no matching data - still passes
+in.val + 1 <=> out.val when(in.tst = 6, out.tst = 6) # tst 6 - no matching data - still passes
+# in.val <=> out.val # no when clause -should fail
+out.val <=> count(in.val) when(out.tst=7, in.tst=0) # tst 7 - count instances in tst 1
+out.val <=> count(in.val) when(out.tst=8, in.tst=0, in.val > 1) # tst 8 - count instances in tst 1 with val > 1
+
+
+

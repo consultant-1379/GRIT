@@ -1,0 +1,3 @@
+in.id <=> out.event_id
+in.col2 <=> out.col2 when(in.id = out.event_id, in.id = 1)
+default(in.col3 = null, 0) <=> out.col3

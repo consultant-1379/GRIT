@@ -1,0 +1,14 @@
+alias.whenCheck <- in.id = out.event_id
+alias.mcc <- substring(in.gummei, 4, 1) | substring(in.gummei, 3, 1) | default(substring(in.gummei, 5, 1) = "f", "0")
+alias.mnc <- substring(in.gummei, 6, 1) | substring(in.gummei, 7, 1) | substring(in.gummei, 8, 1)
+
+in.date_id <=> out.date_id when(alias.whenCheck)
+in.hour_id <=> out.hour_id when(alias.whenCheck)
+in.min_id <=> out.min_id when(alias.whenCheck)
+in.causecode <=> out.cause_code when(alias.whenCheck)
+in.subcausecode <=> out.subcause_code when(alias.whenCheck)
+default(in.bearer_cause = null, 0) <=> out.bearer_cause_1 when(alias.whenCheck)
+alias.mcc <=> out.mcc when(alias.whenCheck)
+alias.mnc <=> out.mnc when(alias.whenCheck)
+in.causecode <=> out.cause_code when(alias.whenCheck)
+

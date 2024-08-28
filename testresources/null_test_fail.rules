@@ -1,0 +1,2 @@
+default(in.col1 = null, 0) <=> out.col1
+

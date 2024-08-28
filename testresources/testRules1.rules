@@ -1,0 +1,4 @@
+in.id <=> out.event_id #pass
+in.col2 <=> out.col2 when(in.id = out.event_id, in.id = 1) #pass
+in.col2 <=> out.col2 #fail
+default(in.col3 = null, 0) <=> out.col3 #pass

@@ -1,0 +1,23 @@
+in.ndate_id <=> out.rdate_id
+in.nhour_id <=> out.rhour_id
+in.nmin_id <=> out.rmin_id
+in.nodecausecode <=> out.rawcausecode
+default(in.nodefloatnum=null, 0.0) <=> out.rawfloatnum
+default(in.nodefloatnum=null, 0) <=> out.rawfloatnum
+
+alias.agg_grp <- in.rdate_id = out.adate_id, in.rhour_id = out.ahour_id, in.rmin_id = out.amin_id, in.rawcausecode = out.aggcausecode
+# This doesn't do what you might think it does.
+# it will fail (correctly) because there are more records on the left then the right
+#in.rawcausecode <=> out.aggcausecode when(alias.agg_grp)
+# another way to do it is: 
+default(count(in.rawcausecode) > 1, 1) <=> count(out.aggcausecode) when(alias.agg_grp) 
+# new way to do it is:
+unique(in.rawcausecode) <=> out.aggcausecode when(alias.agg_grp)
+
+count(in.rawcausecode) <=> out.reccnt when(alias.agg_grp)
+sum(in.rawfloatnum) <=> out.floatnumsum when(alias.agg_grp)
+avg(in.rawfloatnum) <=> out.floatnumavg when(alias.agg_grp)
+
+
+
+

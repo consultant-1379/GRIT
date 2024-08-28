@@ -1,0 +1,7 @@
+# rule should fail because of unknown key
+out.rnc_name <=> lookup(dim_e_lk_rnc_test, rnc_name, in.rnc_id = lookup.rnc_id_unknown)
+# rule should fail because of unknown table EXPECTED RESULT: FAIL
+out.rnc_name <=> lookup(dim_e_lk_rnc_test_unknown, rnc_name, in.rnc_id = lookup.rnc_id)
+# rule should fail because of unknown return
+out.rnc_name <=> lookup(dim_e_lk_rnc_test, rnc_name_unknown, in.rnc_id = lookup.rnc_id)
+

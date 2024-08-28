@@ -1,0 +1,61 @@
+Known issues:
+
+1) default does not expand final term ie.
+default(x=y, alias.x) wont work
+  done
+1a) default does not expand final term ie.
+default(lookup(x,y) = null, lookup(x,z)) wont work
+  done
+
+2) lookup to group on return field
+  done
+
+3) confluence
+  done string literals are in double quotes
+
+4) distinct keyword
+  done
+
+5) Bad buffer warnings
+  done - part of bad handling of Opt fields
+  - more may be more required
+
+6) imsi handling - TBCD
+   done - caused by incorrect handling of isOpt and isValid fields
+
+
+7) Parseing and loading
+  done
+
+8) Broken when clause
+  done
+
+9) Parseraw to show count of insert statements.
+  done 
+
+10) Overlap: xx:yy to 24:60
+  done
+
+11) -s does not show sql
+   done
+
+12) "occurences_differences" changed to "num_excess_records"
+  done
+
+13) Look at lookup definition - sql errors thrown if bad table specified.
+  no action
+
+14) consider converting when_x values to varchar
+
+15) actions sql and cleanup to use same default db.cfg as rest
+   done
+
+16) parse 10dash to report output created
+
+17) parseing SGEH fails
+   Done - bit handling when not multiple of 8 was wrong. 
+
+19) parsing sequences needs to be redone.
+
+   
+

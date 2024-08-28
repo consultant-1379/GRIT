@@ -1,0 +1,18 @@
+in.date_id <=> out.date_id when(in.id = out.event_id)
+alias.whenCheck <- (in.id + 1) - 1 = 1 + (out.event_id -1)
+
+alias.mcc <- substring(in.gummei, 4, 1) | substring(in.gummei, 3, 1) | default(substring(in.gummei, 5, 1) = "f", "0")
+alias.mcc <=> out.mcc when(alias.whenCheck)
+in.date_id <=> out.date_id when(alias.whenCheck)
+in.hour_id <=> out.hour_id when(alias.whenCheck)
+(in.hour_id + 5) - 5 <=> out.hour_id when(alias.whenCheck)
+substring(cast(in.hour_id), 1,1)  <=> substring(cast(out.hour_id), 1,1)  when(alias.whenCheck) # cant substring an int!
+in.min_id <=> out.min_id when(alias.whenCheck)
+in.causecode <=> out.cause_code when(alias.whenCheck)
+in.subcausecode <=> out.subcause_code when(alias.whenCheck)
+default(in.bearer_cause = null, 0) <=> out.bearer_cause_1 when(alias.whenCheck)
+alias.mcc <- substring(in.gummei, 4, 1) | substring(in.gummei, 3, 1) | default(substring(in.gummei, 5, 1) = "f", "0")
+alias.mnc <- substring(in.gummei, 6, 1) | substring(in.gummei, 7, 1) | substring(in.gummei, 8, 1)
+alias.mcc <=> out.mcc when(alias.whenCheck)
+alias.mnc <=> out.mnc when(alias.whenCheck)
+alias.mnc <=> out.mnc when(alias.whenCheck, out.event_id contains(10,12))
